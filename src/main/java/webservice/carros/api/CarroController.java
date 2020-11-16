@@ -10,7 +10,7 @@ import webservice.carros.domain.dto.CarroDTO;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.annotation.Secured;
 
 @RestController
@@ -21,8 +21,9 @@ public class CarroController {
     private CarroService service;
 
     @GetMapping
-    public ResponseEntity get() {
-        List<CarroDTO> listaCarros = service.getCarros();
+    public ResponseEntity get(@RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        List<CarroDTO> listaCarros = service.getCarros(PageRequest.of(page, size));
         return ResponseEntity.ok(listaCarros);
         //return new ResponseEntity<>(listaCarros, HttpStatus.OK);
     }

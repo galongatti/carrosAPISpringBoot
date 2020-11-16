@@ -5,11 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import webservice.carros.domain.dto.CarroDTO;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Pageable;
 import webservice.carros.api.exception.ObjectNotFoundException;
 
 @Service
@@ -18,8 +16,8 @@ public class CarroService {
     @Autowired
     private CarroRepository rep;
 
-    public List<CarroDTO> getCarros() {
-        return rep.findAll().stream().map(c -> CarroDTO.create(c)).collect(Collectors.toList());
+    public List<CarroDTO> getCarros(Pageable pageable) {
+        return rep.findAll(pageable).stream().map(c -> CarroDTO.create(c)).collect(Collectors.toList());
     }
 
     public CarroDTO getCarroById(Long id){
